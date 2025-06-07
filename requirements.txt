@@ -1,0 +1,6 @@
+langgraph "langchain[openai]"
+langchain
+langchain_core
+"mcp[cli]"
+plotly
+kaleido
