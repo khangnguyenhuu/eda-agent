@@ -13,7 +13,6 @@ from langgraph.checkpoint.memory import InMemorySaver
 from langchain_core.runnables import RunnableConfig
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage, ToolMessage
 from langchain_core.messages.ai import AIMessage
-import plotly.io as pio
 import plotly.graph_objects as go
 
 from sources.agents.agent_core import agent
@@ -110,13 +109,10 @@ async def on_message(message: cl.Message):
                 response_content = response["messages"][-1].content
                 if isinstance(response["messages"][-2], ToolMessage) or isinstance(response["messages"][-2], AIMessage):
                     tool_metadata = response["messages"][-2].content
-                    data = json.loads(tool_metadata)
-
-                    # fig = pio.from_json(data,type=go.Figure)
-                    # print(fig)
-                    # print(type(fig))    
-                    fig = go.Figure(data=json.loads(data['figure']), type=go.Figure)
-                    element = [cl.Plotly(fig=fig, display="inline")]
+                    data = json.loads(tool_metadata)   
+                    fig = go.Figure(data=json.loads(data['figure']),
+                                    layout_title_text="An example figure")
+                    element = [cl.Plotly(figure=fig, display="inline")]
     
             await cl.Message(content=response_content, elements=element).send()
 
@@ -126,3 +122,18 @@ async def on_message(message: cl.Message):
 
     # else:
     #     await cl.Message(content="I'm sorry, I don't know how to answer that.").send()
+
+
+# import plotly.graph_objects as go
+# import chainlit as cl
+
+
+# @cl.on_chat_start
+# async def start():
+#     fig = go.Figure(
+#         data=[go.Bar(y=[2, 1, 3])],
+#         layout_title_text="An example figure",
+#     )
+#     elements = [cl.Plotly(name="chart", figure=fig, display="inline")]
+
+#     await cl.Message(content="This message has a chart", elements=elements).send()
