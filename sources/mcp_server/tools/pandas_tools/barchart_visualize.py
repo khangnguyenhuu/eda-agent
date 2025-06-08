@@ -31,4 +31,5 @@ def visualize_barchart(categories: List[str],
         template='plotly'
     )
     # Show the figure
-    return PlotlyChart(figure=fig.to_json().encode('utf-8'))
+    # return PlotlyChart(figure=fig.to_json())
+    return fig.to_json()

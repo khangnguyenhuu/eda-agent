@@ -4,3 +4,4 @@ langchain_core
 "mcp[cli]"
 plotly
 kaleido
+langchain-mcp-adapters
